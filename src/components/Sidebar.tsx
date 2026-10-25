@@ -9,6 +9,9 @@ import {
   Layers,
   Code2,
   FileText,
+  CheckCircle2,
+  Server,
+  Plus,
 } from 'lucide-react';
 import { SAMPLE_ZAPS } from '../constants/sampleZaps';
 import { useMigration } from '../context/MigrationContext';
@@ -16,11 +19,11 @@ import { extractJsonFromZip } from '../services/zipReader';
 
 function getZapIcon(title: string, rawApp = '') {
   const t = (title + rawApp).toLowerCase();
-  if (t.includes('zoom')) return <Video className="w-3.5 h-3.5 text-blue-400" />;
-  if (t.includes('gmail') || t.includes('mail')) return <Mail className="w-3.5 h-3.5 text-red-400" />;
-  if (t.includes('stripe') || t.includes('card')) return <CreditCard className="w-3.5 h-3.5 text-purple-400" />;
-  if (t.includes('code') || t.includes('ai') || t.includes('openai')) return <Sparkles className="w-3.5 h-3.5 text-emerald-400" />;
-  return <Webhook className="w-3.5 h-3.5 text-orange-400" />;
+  if (t.includes('zoom')) return <Video className="w-4 h-4 text-blue-600" />;
+  if (t.includes('gmail') || t.includes('mail')) return <Mail className="w-4 h-4 text-red-600" />;
+  if (t.includes('stripe') || t.includes('card')) return <CreditCard className="w-4 h-4 text-purple-600" />;
+  if (t.includes('code') || t.includes('ai') || t.includes('openai')) return <Sparkles className="w-4 h-4 text-emerald-600" />;
+  return <Webhook className="w-4 h-4 text-orange-600" />;
 }
 
 export const Sidebar: React.FC = () => {
@@ -31,6 +34,7 @@ export const Sidebar: React.FC = () => {
     loadSampleZap,
     handleJsonUploadOrPaste,
     rawJsonInput,
+    railwayDeployUrl,
     showToast,
   } = useMigration();
 
@@ -48,7 +52,7 @@ export const Sidebar: React.FC = () => {
         const extracted = await extractJsonFromZip(buffer);
         if (extracted) {
           handleJsonUploadOrPaste(extracted);
-          showToast(`Arquivo ZIP "${file.name}" descompactado e processado!`, 'success');
+          showToast(`Arquivo ZIP "${file.name}" descompactado com sucesso!`, 'success');
           return;
         }
         showToast('Nenhum arquivo .json encontrado dentro do ZIP.', 'warning');
@@ -73,10 +77,10 @@ export const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className="w-72 sm:w-80 border-r border-[#181f30] bg-[#090c14] flex flex-col justify-between shrink-0 h-full select-none">
+    <aside className="w-72 sm:w-80 border-r border-slate-200 bg-white flex flex-col justify-between shrink-0 h-full select-none text-slate-800">
       {/* Top Section: Dropzone & Zap List */}
       <div className="p-4 space-y-4 overflow-y-auto flex-1">
-        {/* Minimalist Dropzone */}
+        {/* Clean, Obvious Dropzone */}
         <div
           onDragOver={(e) => {
             e.preventDefault();
@@ -89,71 +93,85 @@ export const Sidebar: React.FC = () => {
             handleFileChange(e.dataTransfer.files?.[0]);
           }}
           onClick={() => fileInputRef.current?.click()}
-          className={`rounded-xl border border-dashed p-4 flex flex-col items-center justify-center text-center cursor-pointer transition ${
+          className={`rounded-xl border-2 border-dashed p-4 flex flex-col items-center justify-center text-center cursor-pointer transition ${
             isDragging
-              ? 'border-[#ea4b71] bg-[#ea4b71]/10'
-              : 'border-[#222b40] bg-[#0d121c] hover:bg-[#121824] hover:border-slate-600'
+              ? 'border-orange-500 bg-orange-50'
+              : 'border-slate-300 bg-slate-50 hover:bg-orange-50/40 hover:border-orange-400'
           }`}
         >
-          <div className="w-8 h-8 rounded-lg bg-[#151c2a] flex items-center justify-center text-slate-400 mb-2">
-            <Upload className="w-4 h-4" />
+          <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600 mb-2 shadow-xs">
+            <Upload className="w-5 h-5" />
           </div>
-          <span className="text-xs font-medium text-slate-300">
-            Arraste <strong className="text-white">.json</strong> ou <strong className="text-white">.zip</strong> aqui
-          </span>
-          <span className="text-[10px] text-slate-500 mt-0.5">ou clique para selecionar</span>
-
+          <p className="text-xs font-bold text-slate-900">
+            Arraste seu .zip ou .json
+          </p>
+          <p className="text-[11px] text-slate-500 mt-0.5">
+            ou clique para escolher do computador
+          </p>
           <input
             ref={fileInputRef}
             type="file"
-            accept=".json,.zip,application/json,application/zip"
+            accept=".json,.zip"
             className="hidden"
             onChange={(e) => handleFileChange(e.target.files?.[0])}
           />
         </div>
 
+        {/* Action: Colar JSON manual */}
+        <div className="flex items-center justify-between px-1">
+          <button
+            type="button"
+            onClick={() => {
+              setRawText(rawJsonInput);
+              setShowRawModal(true);
+            }}
+            className="text-[11px] text-orange-600 hover:text-orange-700 font-semibold inline-flex items-center gap-1 cursor-pointer"
+          >
+            <Code2 className="w-3.5 h-3.5" />
+            <span>Colar JSON manualmente</span>
+          </button>
+        </div>
+
         {/* Imported Zaps List */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs text-slate-400 font-medium px-1">
-            <span>Zaps Detectados ({convertedItems.length})</span>
-            <button
-              type="button"
-              onClick={() => {
-                setRawText(rawJsonInput);
-                setShowRawModal(true);
-              }}
-              className="text-[11px] text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
-            >
-              <Code2 className="w-3 h-3" />
-              <span>Colar JSON</span>
-            </button>
+        <div>
+          <div className="flex items-center justify-between mb-2 px-1">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              Workflows Importados ({convertedItems.length})
+            </span>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             {convertedItems.map((item, idx) => {
-              const active = selectedZapIndex === idx;
-              const firstStep = item.zap.steps[0];
+              const isSelected = idx === selectedZapIndex;
+              const firstStepApp = item.zap.steps[0]?.rawApp || item.zap.steps[0]?.appKey || '';
+
               return (
                 <button
-                  key={item.zap.id}
+                  key={item.zap.id || `zap-${idx}`}
                   type="button"
                   onClick={() => setSelectedZapIndex(idx)}
-                  className={`w-full text-left px-3 py-2.5 rounded-lg border text-xs flex items-center justify-between gap-2.5 transition cursor-pointer ${
-                    active
-                      ? 'bg-[#141b2a] border-[#293652] text-white shadow-sm'
-                      : 'bg-transparent hover:bg-[#0f1422] border-transparent text-slate-400 hover:text-slate-200'
+                  className={`w-full text-left p-3 rounded-xl border transition flex items-start gap-2.5 cursor-pointer ${
+                    isSelected
+                      ? 'bg-orange-50/80 border-orange-400 shadow-xs'
+                      : 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5 truncate">
-                    <div className="w-6 h-6 rounded bg-[#182133] border border-[#23304a] flex items-center justify-center shrink-0">
-                      {getZapIcon(item.zap.title, firstStep?.rawApp)}
-                    </div>
-                    <span className="truncate font-medium">{item.zap.title}</span>
+                  <div className="p-1.5 rounded-lg bg-white border border-slate-200 shrink-0 mt-0.5 shadow-2xs">
+                    {getZapIcon(item.zap.title, firstStepApp)}
                   </div>
-
-                  <span className="text-[10px] font-mono text-slate-500 shrink-0">
-                    {item.report.totalSteps} nós
-                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className={`text-xs font-bold truncate ${isSelected ? 'text-orange-950' : 'text-slate-900'}`}>
+                      {item.zap.title}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-500">
+                      <span>{item.report.totalSteps} nós</span>
+                      <span>•</span>
+                      <span className="text-emerald-700 font-medium">Pronto para n8n</span>
+                    </div>
+                  </div>
+                  {isSelected && (
+                    <div className="w-2 h-2 rounded-full bg-orange-600 mt-2 shrink-0" />
+                  )}
                 </button>
               );
             })}
@@ -161,63 +179,77 @@ export const Sidebar: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Section: Sample Presets */}
-      <div className="p-4 border-t border-[#181f30] bg-[#0b0e17] space-y-2">
-        <span className="text-[11px] font-semibold text-slate-400 block px-1">
-          Ou teste com exemplos prontos:
-        </span>
-        <div className="flex flex-wrap gap-1.5">
-          {SAMPLE_ZAPS.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => loadSampleZap(s.id)}
-              className="px-2 py-1 rounded bg-[#121623] hover:bg-[#1a2033] border border-[#1e273d] text-slate-300 text-[10px] font-medium transition cursor-pointer"
-            >
-              {s.badge}
-            </button>
-          ))}
+      {/* Bottom Section: Samples & 1-Click Hosting Callout */}
+      <div className="p-4 border-t border-slate-200 bg-slate-50 space-y-3 shrink-0">
+        <div>
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-2 px-1">
+            Modelos de Exemplo
+          </span>
+          <div className="flex flex-wrap gap-1.5">
+            {SAMPLE_ZAPS.map((sample) => (
+              <button
+                key={sample.id}
+                type="button"
+                onClick={() => loadSampleZap(sample.id)}
+                className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 hover:border-slate-300 transition cursor-pointer"
+              >
+                {sample.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 1-Click Hosting Box in Sidebar */}
+        <div className="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200 text-left">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-950 mb-1">
+            <Server className="w-3.5 h-3.5 text-indigo-600" />
+            <span>Ainda não tem seu n8n?</span>
+          </div>
+          <p className="text-[11px] text-indigo-900/80 leading-relaxed mb-2">
+            Hospede seu n8n com PostgreSQL e tarefas ilimitadas por ~$5/mês.
+          </p>
+          <a
+            href={railwayDeployUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-center text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white py-1.5 px-3 rounded-lg shadow-xs transition"
+          >
+            Criar com 1 clique ↗
+          </a>
         </div>
       </div>
 
-      {/* Raw JSON Paste Modal */}
+      {/* Modal: Colar JSON manual */}
       {showRawModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
-          <div className="w-full max-w-xl bg-[#0c1019] border border-[#1e273d] rounded-xl p-5 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-white flex items-center gap-2">
-                <FileText className="w-4 h-4 text-purple-400" />
-                Colar JSON do Zapier
-              </span>
-              <button
-                type="button"
-                onClick={() => setShowRawModal(false)}
-                className="text-slate-400 hover:text-white text-xs cursor-pointer"
-              >
-                Cancelar
-              </button>
-            </div>
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+            <h3 className="text-base font-bold text-slate-900 mb-1">
+              Colar Código JSON do Zapier
+            </h3>
+            <p className="text-xs text-slate-600 mb-3">
+              Cole o conteúdo exportado do seu Zap aqui para converter:
+            </p>
             <textarea
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
-              rows={12}
-              className="w-full p-3 rounded-lg bg-[#07090f] border border-[#1e273d] font-mono text-xs text-slate-200 focus:outline-none focus:border-slate-500"
-              placeholder='Cole aqui seu JSON do Zapier...'
+              rows={10}
+              className="w-full p-3 font-mono text-xs rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-orange-500 focus:outline-hidden text-slate-900"
+              placeholder='{ "title": "Meu Zap", "steps": [...] }'
             />
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 mt-4">
               <button
                 type="button"
                 onClick={() => setShowRawModal(false)}
-                className="px-3 py-1.5 rounded-lg bg-[#121623] text-slate-300 text-xs font-medium cursor-pointer"
+                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition cursor-pointer"
               >
-                Voltar
+                Cancelar
               </button>
               <button
                 type="button"
                 onClick={handleApplyRaw}
-                className="px-4 py-1.5 rounded-lg bg-[#ea4b71] hover:bg-[#d93f64] text-white text-xs font-semibold cursor-pointer"
+                className="px-4 py-2 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-sm transition cursor-pointer"
               >
-                Processar JSON
+                Converter Workflow
               </button>
             </div>
           </div>

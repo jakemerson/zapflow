@@ -39,186 +39,163 @@ export const RoiDrawer: React.FC<RoiDrawerProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/70 backdrop-blur-sm">
-      <div className="w-full max-w-lg bg-[#0c1019] border-l border-[#1c2438] h-full overflow-y-auto flex flex-col shadow-2xl">
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs">
+      <div className="w-full max-w-lg bg-white border-l border-slate-200 h-full overflow-y-auto flex flex-col shadow-2xl animate-in slide-in-from-right duration-200">
         {/* Header */}
-        <div className="px-6 py-5 border-b border-[#1c2438] flex items-center justify-between">
+        <div className="px-6 py-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+            <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600">
               <TrendingDown className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-sm font-semibold text-slate-100">Calculadora de Economia</h2>
-              <p className="text-xs text-slate-400">Zapier vs. n8n Self-Hosted na Railway</p>
+              <h2 className="text-sm font-bold text-slate-900">Calculadora de Economia</h2>
+              <p className="text-xs text-slate-500">Zapier vs. n8n Hospedado na Nuvem</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6 flex-1 text-xs">
-          {/* Main Savings Highlight Card */}
-          <div className="p-4 rounded-xl bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 space-y-2">
-            <span className="text-[11px] font-medium text-emerald-400 uppercase tracking-wider block">
-              Economia Anual Estimada
-            </span>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-white">
-                R$ {roiCalculation.annualSavingsBrl.toLocaleString('pt-BR')}
-              </span>
-              <span className="text-sm font-semibold text-emerald-400">
-                ({roiCalculation.savingsPercentage}% a menos)
+        <div className="p-6 space-y-6 flex-1 text-slate-800">
+          {/* Slider Volume de Tarefas */}
+          <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-semibold text-slate-700">Volume Mensal de Tarefas</span>
+              <span className="font-mono text-sm font-bold text-orange-600">
+                {monthlyTasks.toLocaleString('pt-BR')} tarefas/mês
               </span>
             </div>
-            <p className="text-slate-400 text-[11px]">
-              Economia direta de <strong>${roiCalculation.annualSavingsUsd.toLocaleString('en-US')} USD/ano</strong> em faturas operacionais.
-            </p>
-          </div>
 
-          {/* Task Volume Selector */}
-          <div className="space-y-2.5">
-            <div className="flex items-center justify-between">
-              <span className="font-medium text-slate-300">Volume Mensal de Tarefas (Zapier):</span>
-              <span className="font-mono text-slate-400">{roiCalculation.recommendedZapierTier}</span>
-            </div>
-            <div className="grid grid-cols-3 gap-1.5">
-              {ZAPIER_PRICING_TIERS.map((tier) => {
-                const active = roiCalculation.monthlyTasks === tier.tasks;
-                return (
-                  <button
-                    key={tier.tasks}
-                    type="button"
-                    onClick={() => setMonthlyTasks(tier.tasks)}
-                    className={`px-2.5 py-2 rounded-lg text-xs font-mono transition cursor-pointer text-center ${
-                      active
-                        ? 'bg-[#ea4b71] text-white font-semibold shadow-sm'
-                        : 'bg-[#121724] hover:bg-[#182032] text-slate-300 border border-[#1e273d]'
-                    }`}
-                  >
-                    {tier.tasks >= 1000 ? `${tier.tasks / 1000}k` : tier.tasks} tasks
-                  </button>
-                );
-              })}
+            <input
+              type="range"
+              min={750}
+              max={1500000}
+              step={5000}
+              value={monthlyTasks}
+              onChange={(e) => setMonthlyTasks(Number(e.target.value))}
+              className="w-full accent-orange-600 cursor-pointer"
+            />
+
+            <div className="flex justify-between text-[11px] text-slate-500 font-mono">
+              <span>750</span>
+              <span>100k</span>
+              <span>500k</span>
+              <span>1.5M+</span>
             </div>
           </div>
 
-          {/* Direct Comparison */}
+          {/* Comparativo de Custos */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="p-3.5 rounded-xl bg-[#101420] border border-red-500/20">
-              <span className="text-[11px] text-slate-400 block mb-1">Custo no Zapier</span>
-              <span className="text-lg font-bold text-red-400 block">
-                ${roiCalculation.zapierMonthlyUsd}/mês
-              </span>
-              <span className="text-[11px] text-slate-500 font-mono">
+            <div className="p-4 rounded-xl border border-slate-200 bg-white">
+              <span className="text-[11px] text-slate-500 font-medium block">Custo no Zapier</span>
+              <div className="text-2xl font-extrabold text-slate-900 mt-1 font-mono">
+                ${roiCalculation.zapierMonthlyUsd}
+                <span className="text-xs text-slate-400 font-normal">/mês</span>
+              </div>
+              <div className="text-[11px] text-slate-500 mt-1">
                 ${roiCalculation.zapierAnnualUsd}/ano
-              </span>
+              </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#101420] border border-purple-500/20">
-              <span className="text-[11px] text-slate-400 block mb-1">n8n na Railway</span>
-              <span className="text-lg font-bold text-purple-300 block">
-                ~${roiCalculation.railwayMonthlyUsd}/mês
-              </span>
-              <span className="text-[11px] text-slate-500 font-mono">
-                Execuções ilimitadas
-              </span>
+            <div className="p-4 rounded-xl border-2 border-emerald-400 bg-emerald-50/50">
+              <span className="text-[11px] text-emerald-800 font-bold block">n8n na Nuvem</span>
+              <div className="text-2xl font-extrabold text-emerald-950 mt-1 font-mono">
+                ${roiCalculation.railwayMonthlyUsd}
+                <span className="text-xs text-emerald-800 font-normal">/mês</span>
+              </div>
+              <div className="text-[11px] text-emerald-800 font-semibold mt-1">
+                ${roiCalculation.railwayAnnualUsd}/ano (Ilimitado)
+              </div>
             </div>
           </div>
 
-          {/* Railway 1-Click CTA */}
-          <div className="p-4 rounded-xl bg-[#101524] border border-[#1e273d] space-y-3">
-            <div className="flex items-center gap-2.5">
-              <Server className="w-4 h-4 text-purple-400" />
-              <span className="font-semibold text-slate-200">Template n8n Oficial na Railway</span>
+          {/* Economia em Destaque */}
+          <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white shadow-md">
+            <span className="text-xs uppercase tracking-wider font-semibold text-emerald-100">
+              Economia Estimada Líquida
+            </span>
+            <div className="text-3xl font-black mt-1 font-mono">
+              ${roiCalculation.monthlySavingsUsd}{' '}
+              <span className="text-base font-normal text-emerald-200">/ mês</span>
             </div>
-            <ul className="space-y-1 text-[11px] text-slate-400">
-              <li className="flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Banco PostgreSQL dedicado incluso</span>
-              </li>
-              <li className="flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>SSL e domínio automático gratuito</span>
-              </li>
-              <li className="flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Cole os workflows convertidos via Ctrl+V no canvas</span>
-              </li>
-            </ul>
+            <div className="text-xs text-emerald-100 mt-1">
+              Equivalente a <strong>R$ {roiCalculation.annualSavingsBrl.toLocaleString('pt-BR')}</strong> por ano ({roiCalculation.savingsPercentage}% de redução).
+            </div>
+          </div>
 
+          {/* Botão de Deploy do n8n */}
+          <div className="p-5 rounded-xl border border-indigo-200 bg-indigo-50/60 space-y-3">
+            <div className="flex items-center gap-2 text-indigo-950 font-bold text-sm">
+              <Server className="w-4 h-4 text-indigo-600" />
+              <span>Ainda não tem seu n8n hospedado?</span>
+            </div>
+            <p className="text-xs text-indigo-900/80 leading-relaxed">
+              Inicie seu servidor n8n com 1 clique. Inclui PostgreSQL integrado, SSL automático, backups e execuções ilimitadas.
+            </p>
             <a
               href={railwayDeployUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-[#ea4b71] hover:bg-[#d93f64] text-white font-semibold transition"
+              className="w-full inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs py-2.5 px-4 rounded-lg shadow-sm transition"
             >
-              <span>Subir n8n na Railway (~$5/mês)</span>
+              <span>Criar meu n8n na Nuvem com 1 clique</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
 
-          {/* Partner Referral Settings toggle */}
-          <div className="pt-2 border-t border-[#1c2438]">
+          {/* Toggle de Configurações Avançadas */}
+          <div className="pt-2">
             <button
               type="button"
-              onClick={() => setShowPartnerSettings((prev) => !prev)}
-              className="w-full flex items-center justify-between text-slate-400 hover:text-slate-200 text-xs py-1 cursor-pointer"
+              onClick={() => setShowPartnerSettings(!showPartnerSettings)}
+              className="text-xs text-slate-500 hover:text-slate-800 font-medium inline-flex items-center gap-1 cursor-pointer"
             >
-              <span className="flex items-center gap-1.5">
-                <Settings2 className="w-3.5 h-3.5 text-purple-400" />
-                <span>Configurar Meu Link de Afiliado Railway (Agências)</span>
-              </span>
-              <span className="text-[10px] text-slate-500 font-mono">
-                {showPartnerSettings ? 'Ocultar' : 'Editar'}
-              </span>
+              <Settings2 className="w-3.5 h-3.5" />
+              <span>{showPartnerSettings ? 'Ocultar configurações de template' : 'Configurar template personalizado'}</span>
             </button>
 
             {showPartnerSettings && (
-              <form onSubmit={handleSavePartnerConfig} className="mt-3 space-y-2.5 bg-[#101420] p-3.5 rounded-xl border border-[#1e273d]">
+              <form onSubmit={handleSavePartnerConfig} className="mt-3 p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3 text-xs">
                 <div>
-                  <label className="block text-[11px] text-slate-400 mb-1">
-                    Código de Referência (referralCode):
+                  <label className="block text-slate-700 font-semibold mb-1">
+                    Código de Referência / Parceiro:
                   </label>
                   <input
                     type="text"
                     value={referralInput}
                     onChange={(e) => setReferralInput(e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded bg-[#0a0d14] border border-[#1e273d] text-slate-200 font-mono text-xs"
-                    placeholder="ex: jakemerson"
+                    className="w-full p-2 rounded-lg border border-slate-300 bg-white text-slate-900"
+                    placeholder="jakemerson"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-[11px] text-slate-400 mb-1">
-                    Nome da Sua Agência:
+                  <label className="block text-slate-700 font-semibold mb-1">
+                    Template URL:
                   </label>
                   <input
-                    type="text"
-                    value={agencyInput}
-                    onChange={(e) => setAgencyInput(e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded bg-[#0a0d14] border border-[#1e273d] text-slate-200 text-xs"
+                    type="url"
+                    value={templateInput}
+                    onChange={(e) => setTemplateInput(e.target.value)}
+                    className="w-full p-2 rounded-lg border border-slate-300 bg-white text-slate-900"
+                    placeholder="https://railway.app/template/n8n-with-workers"
                   />
                 </div>
-                <label className="flex items-center gap-2 text-slate-300 text-[11px] cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={whiteLabelToggle}
-                    onChange={(e) => setWhiteLabelToggle(e.target.checked)}
-                    className="rounded border-[#1e273d]"
-                  />
-                  <span>Assinatura White-Label nas Sticky Notes</span>
-                </label>
-                <button
-                  type="submit"
-                  className="w-full py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs transition cursor-pointer"
-                >
-                  Salvar Configuração
-                </button>
+
+                <div className="flex justify-end gap-2 pt-1">
+                  <button
+                    type="submit"
+                    className="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-bold transition cursor-pointer"
+                  >
+                    Salvar
+                  </button>
+                </div>
               </form>
             )}
           </div>
