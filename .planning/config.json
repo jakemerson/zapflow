@@ -1,0 +1,11 @@
+{
+  "mode": "autonomous",
+  "project": "05-zapier-to-n8n",
+  "codename": "ZapFlow",
+  "version": "1.0.0",
+  "framework": "gsd",
+  "stack": "vite-react19-typescript-tailwindv4",
+  "deploy_targets": ["github-pages", "railway"],
+  "monetization": ["batch-license-brl59", "railway-affiliate-recurring-usd"],
+  "total_phases": 7
+}
