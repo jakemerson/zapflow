@@ -50,8 +50,8 @@ export function calculateMigrationRoi(
 
 export function buildRailwayDeployUrl(config: AffiliateConfig): string {
   const baseUrl =
-    config.templateUrl.trim() || 'https://railway.app/template/n8n-with-workers';
-  const code = config.referralCode.trim() || 'jakemerson';
+    config.templateUrl.trim() || 'https://railway.com/deploy/n8n-main-worker';
+  const code = config.referralCode.trim() || 'mdYrO9';
   const separator = baseUrl.includes('?') ? '&' : '?';
   return `${baseUrl}${separator}referralCode=${encodeURIComponent(code)}`;
 }

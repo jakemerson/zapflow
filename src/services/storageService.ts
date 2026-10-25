@@ -20,7 +20,14 @@ export const storageService = {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEYS.AFFILIATE);
       if (!raw) return DEFAULT_AFFILIATE_CONFIG;
-      return { ...DEFAULT_AFFILIATE_CONFIG, ...JSON.parse(raw) };
+      const parsed = JSON.parse(raw);
+      if (parsed.referralCode === 'jakemerson' || !parsed.referralCode) {
+        parsed.referralCode = DEFAULT_AFFILIATE_CONFIG.referralCode;
+      }
+      if (parsed.templateUrl?.includes('railway.app/template') || !parsed.templateUrl) {
+        parsed.templateUrl = DEFAULT_AFFILIATE_CONFIG.templateUrl;
+      }
+      return { ...DEFAULT_AFFILIATE_CONFIG, ...parsed };
     } catch {
       return DEFAULT_AFFILIATE_CONFIG;
     }

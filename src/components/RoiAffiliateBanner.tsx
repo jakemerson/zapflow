@@ -41,9 +41,9 @@ export const RoiAffiliateBanner: React.FC = () => {
     }
     updateAffiliateConfig({
       ...affiliateConfig,
-      referralCode: referralInput.trim() || 'jakemerson',
+      referralCode: referralInput.trim() || 'mdYrO9',
       templateUrl:
-        templateInput.trim() || 'https://railway.app/template/n8n-with-workers',
+        templateInput.trim() || 'https://railway.com/deploy/n8n-main-worker',
       agencyName: agencyInput.trim() || 'ZapFlow Migration Suite',
       whiteLabelEnabled: whiteLabelToggle,
     });
@@ -226,7 +226,7 @@ export const RoiAffiliateBanner: React.FC = () => {
                   value={referralInput}
                   onChange={(e) => setReferralInput(e.target.value)}
                   className="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-slate-100 font-mono text-xs"
-                  placeholder="ex: jakemerson"
+                  placeholder="ex: mdYrO9"
                 />
               </div>
               <div>

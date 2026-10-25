@@ -477,7 +477,7 @@ export function convertZapToN8n(
 
   const referralUrl = `${affiliateConfig.templateUrl}${
     affiliateConfig.templateUrl.includes('?') ? '&' : '?'
-  }referralCode=${encodeURIComponent(affiliateConfig.referralCode || 'jakemerson')}`;
+  }referralCode=${encodeURIComponent(affiliateConfig.referralCode || 'mdYrO9')}`;
 
   const headerLine = affiliateConfig.whiteLabelEnabled
     ? `## 🚀 ${affiliateConfig.customStickyHeader || affiliateConfig.agencyName}`

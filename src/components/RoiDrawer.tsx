@@ -24,8 +24,8 @@ export const RoiDrawer: React.FC<RoiDrawerProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
     updateAffiliateConfig({
       ...affiliateConfig,
-      referralCode: referralInput.trim() || 'jakemerson',
-      templateUrl: templateInput.trim() || 'https://railway.app/template/n8n-with-workers',
+      referralCode: referralInput.trim() || 'mdYrO9',
+      templateUrl: templateInput.trim() || 'https://railway.com/deploy/n8n-main-worker',
     });
     setShowPartnerSettings(false);
   };
@@ -74,7 +74,7 @@ export const RoiDrawer: React.FC<RoiDrawerProps> = ({ isOpen, onClose }) => {
                     value={referralInput}
                     onChange={(e) => setReferralInput(e.target.value)}
                     className="w-full p-2 rounded-lg border border-slate-300 bg-slate-50 text-slate-900 focus:bg-white focus:outline-hidden"
-                    placeholder="jakemerson"
+                    placeholder="mdYrO9"
                   />
                 </div>
 
@@ -87,7 +87,7 @@ export const RoiDrawer: React.FC<RoiDrawerProps> = ({ isOpen, onClose }) => {
                     value={templateInput}
                     onChange={(e) => setTemplateInput(e.target.value)}
                     className="w-full p-2 rounded-lg border border-slate-300 bg-slate-50 text-slate-900 focus:bg-white focus:outline-hidden"
-                    placeholder="https://railway.app/template/n8n-with-workers"
+                    placeholder="https://railway.com/deploy/n8n-main-worker"
                   />
                 </div>
 

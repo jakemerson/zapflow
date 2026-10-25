@@ -13,8 +13,8 @@ export const STORAGE_KEYS = {
 } as const;
 
 export const DEFAULT_AFFILIATE_CONFIG: AffiliateConfig = {
-  referralCode: 'jakemerson',
-  templateUrl: 'https://railway.app/template/n8n-with-workers',
+  referralCode: 'mdYrO9',
+  templateUrl: 'https://railway.com/deploy/n8n-main-worker',
   agencyName: 'ZapFlow Migration Suite',
   customStickyHeader: '⚡ Migrado automaticamente do Zapier via ZapFlow',
   whiteLabelEnabled: false,
