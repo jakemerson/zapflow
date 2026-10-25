@@ -33,19 +33,18 @@ export const DEFAULT_LICENSE_STATE: LicenseState = {
 };
 
 export const ZAPIER_PRICING_TIERS: ZapierPricingTier[] = [
-  { tasks: 750, label: '750 tarefas/mês', monthlyUsd: 29.99, planName: 'Professional (750)' },
-  { tasks: 2000, label: '2.000 tarefas/mês', monthlyUsd: 69, planName: 'Professional (2k)' },
-  { tasks: 5000, label: '5.000 tarefas/mês', monthlyUsd: 129, planName: 'Team (5k)' },
-  { tasks: 10000, label: '10.000 tarefas/mês', monthlyUsd: 199, planName: 'Team (10k)' },
-  { tasks: 20000, label: '20.000 tarefas/mês', monthlyUsd: 289, planName: 'Team (20k)' },
-  { tasks: 50000, label: '50.000 tarefas/mês', monthlyUsd: 599, planName: 'Company (50k)' },
-  { tasks: 100000, label: '100.000 tarefas/mês', monthlyUsd: 899, planName: 'Company (100k)' },
-  { tasks: 250000, label: '250.000 tarefas/mês', monthlyUsd: 1599, planName: 'Enterprise (250k)' },
-  { tasks: 500000, label: '500.000 tarefas/mês', monthlyUsd: 2499, planName: 'Enterprise (500k)' },
+  { tasks: 750, label: '750 tarefas/mês', monthlyUsd: 29.99, planName: 'Professional (750 tarefas)' },
+  { tasks: 1500, label: '1.500 tarefas/mês', monthlyUsd: 58.50, planName: 'Professional (1.5k tarefas)' },
+  { tasks: 2000, label: '2.000 tarefas/mês', monthlyUsd: 73.50, planName: 'Professional (2k tarefas)' },
+  { tasks: 5000, label: '5.000 tarefas/mês', monthlyUsd: 133.50, planName: 'Professional (5k tarefas)' },
+  { tasks: 10000, label: '10.000 tarefas/mês', monthlyUsd: 193.50, planName: 'Professional (10k tarefas)' },
+  { tasks: 20000, label: '20.000 tarefas/mês', monthlyUsd: 283.50, planName: 'Professional (20k tarefas)' },
+  { tasks: 50000, label: '50.000 tarefas/mês', monthlyUsd: 433.50, planName: 'Professional (50k tarefas)' },
+  { tasks: 100000, label: '100.000 tarefas/mês', monthlyUsd: 733.50, planName: 'Professional (100k tarefas)' },
 ];
 
 export const RAILWAY_N8N_HOBBY_USD = 5;
-export const RAILWAY_N8N_WORKERS_USD = 10;
+export const RAILWAY_N8N_WORKERS_USD = 15;
 export const USD_TO_BRL_RATE = 5.75;
 
 export const PRO_LICENSE_PRICE_BRL = 59;

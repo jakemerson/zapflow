@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import { useMigration } from '../context/MigrationContext';
 
+import { RoiCalculatorCard } from './RoiCalculatorCard';
+
 interface LandingPageProps {
   onOpenMigrator: () => void;
 }
@@ -352,69 +354,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenMigrator }) => {
         </div>
       </section>
 
-      {/* Comparison & ROI Section */}
+      {/* Interactive Comparison & Real ROI Calculator Section */}
       <section className="py-16 bg-slate-100/70 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">
-              Economia Real
-            </span>
-            <h2 className="text-3xl font-bold text-slate-900 mt-1">
-              Compare os custos
-            </h2>
-            <p className="text-slate-600 text-sm max-w-xl mx-auto mt-2">
-              Veja quanto sua empresa ou agência economiza ao trocar o modelo por tarefa do Zapier pelo modelo ilimitado do n8n.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Zapier Card */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-300 shadow-xs relative">
-              <div className="text-xs font-semibold text-slate-500 mb-1">Zapier (Plano Pro/Team)</div>
-              <div className="text-3xl font-extrabold text-slate-900 mb-4">
-                $299 <span className="text-sm font-normal text-slate-500">/ mês</span>
-              </div>
-              <ul className="space-y-3 text-xs text-slate-600">
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 font-bold shrink-0">✕</span>
-                  <span>Cobrança por cada tarefa executada (tarefas extras são caras)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 font-bold shrink-0">✕</span>
-                  <span>Gatilhos rápidos limitados a planos superiores</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 font-bold shrink-0">✕</span>
-                  <span>Custo total anual estimado: <strong>$3.588/ano</strong></span>
-                </li>
-              </ul>
-            </div>
-
-            {/* n8n Self-Hosted Card */}
-            <div className="bg-gradient-to-br from-emerald-50 to-teal-50/50 rounded-2xl p-6 border-2 border-emerald-400 shadow-md relative">
-              <div className="absolute top-4 right-4 bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
-                Economia de 98%
-              </div>
-              <div className="text-xs font-semibold text-emerald-800 mb-1">n8n Hospedado na Nuvem</div>
-              <div className="text-3xl font-extrabold text-emerald-950 mb-4">
-                ~$5 <span className="text-sm font-normal text-emerald-800">/ mês</span>
-              </div>
-              <ul className="space-y-3 text-xs text-emerald-950 font-medium">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span><strong>Tarefas ilimitadas</strong> sem cobrança surpresa</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Execuções em tempo real sem limite artificial</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Custo total anual estimado: <strong>~$60/ano</strong> (Economia de mais de $3.500)</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <RoiCalculatorCard onOpenMigrator={onOpenMigrator} />
         </div>
       </section>
 

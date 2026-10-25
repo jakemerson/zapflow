@@ -19,7 +19,7 @@ export function calculateMigrationRoi(
   const zapierAnnualUsd = Math.round(zapierMonthlyUsd * 12);
 
   const railwayMonthlyUsd =
-    monthlyTasks > 50000 ? RAILWAY_N8N_WORKERS_USD : RAILWAY_N8N_HOBBY_USD;
+    monthlyTasks >= 50000 ? RAILWAY_N8N_WORKERS_USD : RAILWAY_N8N_HOBBY_USD;
   const railwayAnnualUsd = railwayMonthlyUsd * 12;
 
   const monthlySavingsUsd = Math.max(0, Number((zapierMonthlyUsd - railwayMonthlyUsd).toFixed(2)));
